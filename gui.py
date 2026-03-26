@@ -23,6 +23,8 @@ window = FSG.Window("Gimu",
                     font = ('Helvetica', 15))
 while True:
     event, values = window.read(timeout=1000)
+    if event == FSG.WIN_CLOSED:
+        break
     window["clock"].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
     match event:
         case "Add":
@@ -59,7 +61,5 @@ while True:
             except IndexError:
                 FSG.popup("Add an item to select.", font=('Helvetica', 15))
         case "Exit":
-            break
-        case FSG.WIN_CLOSED:
             break
 window.close()
