@@ -7,11 +7,14 @@ add_button = FSG.Button("Add")
 list_box = FSG.Listbox(values = get_todos(), key = "todos",
                        enable_events= True, size = (45, 10))
 edit_button = FSG.Button("Edit")
+complete_button = FSG.Button("Complete")
+exit_button = FSG.Button("Exit")
 
 window = FSG.Window("Gimu",
                     layout = [[label],
                               [input_box, add_button],
-                              [list_box, edit_button]],
+                              [list_box, edit_button, complete_button],
+                              [exit_button]],
                     font = ('Helvetica', 15))
 while True:
     event, values = window.read()
@@ -32,8 +35,17 @@ while True:
             todos[index] = new_todo
             write_todos(todos)
             window["todos"].update(values=todos)
+        case "Complete":
+            todos = get_todos()
+            todo_to_complete = values["todos"][0]
+            todos.remove(todo_to_complete)
+            write_todos(todos)
+            window["todos"].update(values=todos)
+            window["todo"].update(value = "")
         case "todos":
             window["todo"].update(value=values["todos"][0])
+        case "Exit":
+            break
         case FSG.WIN_CLOSED:
             break
 window.close()
